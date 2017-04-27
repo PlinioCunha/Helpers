@@ -59,7 +59,7 @@ namespace MVCAPI.DataAcess
                     conn.Open();
                     var reader = command.ExecuteReader();
                     items = ToListaDataReader<T>(reader);
-
+                    conn.Close();
                 }
             }
 
