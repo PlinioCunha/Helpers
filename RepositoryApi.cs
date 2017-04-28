@@ -6,13 +6,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace MVCAPI.Helpers
+namespace AdminUI.Helpers
 {
-    public class RepositoryApi<T>
+    public class RepositoryApi
     {
         static HttpClient client = new HttpClient();
 
-        public async Task<HttpResponseMessage> PostCreateAsync(string pathUrl, T entity)
+        public async Task<HttpResponseMessage> PostCreateAsync<T>(string pathUrl, T entity)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(pathUrl, entity);            
             response.EnsureSuccessStatusCode();
@@ -20,7 +20,7 @@ namespace MVCAPI.Helpers
             return response;
         }
 
-        public async Task<T> PostAsync(string pathUrl, T entity)
+        public async Task<T> PostAsync<T>(string pathUrl, T entity)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync(pathUrl, entity);
             T obj = default(T);
@@ -31,7 +31,7 @@ namespace MVCAPI.Helpers
             return obj;            
         }
 
-        public async Task<T> GeTAsync(string pathUrl)
+        public async Task<T> GeTAsync<T>(string pathUrl)
         {
             T obj = default(T);
             HttpResponseMessage response = await client.GetAsync(pathUrl);
@@ -42,7 +42,7 @@ namespace MVCAPI.Helpers
             return obj;
         }
 
-        public async Task<T> PutAsync(string pathUrl, T entity)
+        public async Task<T> PutAsync<T>(string pathUrl, T entity)
         {
             T obj = default(T);
             HttpResponseMessage response = await client.PutAsJsonAsync(pathUrl, entity);
