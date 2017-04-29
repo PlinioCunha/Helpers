@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -12,11 +13,21 @@ namespace AdminUI.Helpers
     {
         static HttpClient client = new HttpClient();
 
+        //public RepositoryApi()
+        //{
+        //    //client = new HttpClient();
+        //    //client.DefaultRequestHeaders.Accept.Clear();
+        //    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //}
+
         public async Task<HttpResponseMessage> PostCreateAsync<T>(string pathUrl, T entity)
         {
-            HttpResponseMessage response = await client.PostAsJsonAsync(pathUrl, entity);            
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpResponseMessage response = await client.PostAsJsonAsync(pathUrl, entity);
             response.EnsureSuccessStatusCode();
-            
+
             return response;
         }
 
@@ -28,7 +39,7 @@ namespace AdminUI.Helpers
             {
                 obj = await response.Content.ReadAsAsync<T>();
             }
-            return obj;            
+            return obj;
         }
 
         public async Task<T> GeTAsync<T>(string pathUrl)
@@ -52,13 +63,13 @@ namespace AdminUI.Helpers
             {
                 obj = await response.Content.ReadAsAsync<T>();
             }
-            
+
             return obj;
         }
 
         public async Task<HttpStatusCode> DeleteAsync(string pathUrl)
         {
-            HttpResponseMessage response = await client.DeleteAsync(pathUrl);            
+            HttpResponseMessage response = await client.DeleteAsync(pathUrl);
             return response.StatusCode;
         }
 
